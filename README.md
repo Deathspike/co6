@@ -1,4 +1,7 @@
-co6
-===
+# co6
 
-A compact implementation to use generators as coroutines.
+A compact coroutine library for generators/promises.
+
+## Quick Start
+
+~Coming soon~

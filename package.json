@@ -1,0 +1,20 @@
+{
+  "author": "Roel van Uden",
+  "description": "A compact coroutine library for generators/promises.",
+  "license": "MIT",
+  "name": "co6",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Deathspike/co6.git"
+  },
+  "keywords": [
+    "async",
+    "coroutine",
+    "es6",
+    "harmony",
+    "generator",
+    "promise",
+    "yield"
+  ]
+}
