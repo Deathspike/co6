@@ -26,7 +26,9 @@ function coroutine(gen) {
  * @see spawn
  */
 function main(gen) {
-  return spawn(gen).catch(function(err) {
+  return spawn(gen).then(function() {
+    return undefined;
+  }, function(err) {
     console.log(err.stack || err);
   });
 }
@@ -158,7 +160,7 @@ function isIterator(v) {
  * @return {boolean}
  */
 function isPromise(x) {
-  return x && typeof x.catch === 'function' && typeof x.then === 'function';
+  return x && typeof x.then === 'function';
 }
 
 /**
