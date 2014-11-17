@@ -105,4 +105,4 @@ Like the `promisify` function, the `promisifyAll` function encapsulates continua
 
     co6.Promise = require('bluebird');
 
-The `bluebird` library is absolutely worthwhile, so check it out if you are interested in a different implementation.
+The `bluebird` library is absolutely worthwhile, so check it out!
