@@ -2,6 +2,7 @@
 module.exports.coroutine = coroutine;
 module.exports.main = main;
 module.exports.parallel = parallel;
+module.exports.Promise = typeof Promise === 'undefined' ? undefined : Promise;
 module.exports.promisify = promisify;
 module.exports.promisifyAll = promisifyAll;
 module.exports.series = series;
@@ -26,8 +27,8 @@ function coroutine(gen) {
  * @see spawn
  */
 function main(gen) {
-  return spawn(gen).then(function() {
-    return undefined;
+  return spawn(gen).then(function(result) {
+    return result;
   }, function(err) {
     console.log(err.stack || err);
   });
@@ -40,10 +41,10 @@ function main(gen) {
  */
 function spawn(it) {
   if (isGenerator(it)) it = it();
-  return Promise.resolve().then(function next(value) {
+  return (module.exports.Promise).resolve().then(function next(value) {
     var state = it.next(value);
     var x = state.value;
-    if (state.done) return Promise.resolve(x);
+    if (state.done) return (module.exports.Promise).resolve(x);
     if (isGenerator(x) || isIterator(x)) x = spawn(x);
     if (isYieldableArray(x)) x = parallel(x);
     return isPromise(x) ? x.then(next, it.throw.bind(it)) : next(x);
@@ -63,7 +64,7 @@ function promisify(fn) {
     var len = arguments.length;
     var args = new Array(len + 1);
     for (var i = 0; i < len; i++) args[i] = arguments[i];
-    return new Promise(function(resolve, reject) {
+    return new (module.exports.Promise)(function(resolve, reject) {
       args[len] = function(err, result) {
         if (isErrorAnachronism(err)) return resolve(err);
         if (err) return reject(err);
@@ -97,7 +98,7 @@ function promisifyAll(obj) {
  * @return {Promise}
  */
 function parallel(arr) {
-  var promise = Promise.resolve();
+  var promise = (module.exports.Promise).resolve();
   arr.forEach(function(value) {
     var task = isPromise(value) ? value : spawn(value);
     promise = promise.then(function() {
@@ -113,7 +114,7 @@ function parallel(arr) {
  * @return {Promise}
  */
 function series(arr) {
-  var promise = Promise.resolve();
+  var promise = (module.exports.Promise).resolve();
   arr.forEach(function(value) {
     promise = promise.then(function() {
       return isPromise(value) ? value : spawn(value);
