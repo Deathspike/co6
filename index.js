@@ -31,6 +31,7 @@ function main(gen) {
     return result;
   }, function(err) {
     console.log(err.stack || err);
+    process.exit(0);
   });
 }
 
