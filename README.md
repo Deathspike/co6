@@ -49,7 +49,7 @@ Unlike the `spawn` function which immediately runs a generator, the `coroutine` 
 
 ### main
 
-The `main` function is similar to `spawn`, except for the fact that the returned promise comes with an attached exception handler. When an exception occurs in the generator, the exception is printed to *stdout*. This behaviour makes it particularly suitable as an entry point for a command line application, and is intended to be used for that purpose. Example:
+The `main` function is similar to `spawn`, except for the fact that the returned promise comes with an attached exception handler. When an exception occurs in the generator, the exception is printed to *stdout*, and the process will exit with an error. This behaviour makes it particularly suitable as an entry point for a command line application, and is intended to be used for that purpose. Example:
 
     co6.main(function *() {
     	console.log('Waiting ...');
